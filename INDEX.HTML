@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Resort Booking System</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation Styles */
+        .nav-menu {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+        }
+
+        .nav-menu li {
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            display: block;
+        }
+
+        /* Layout Styles */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        /* Booking Form Styles */
+        #booking-form {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+
+        #booking-form label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        #booking-form input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #booking-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #booking-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Amenities List Styles */
+        #amenities-list {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+
+        #amenities-list input, #amenities-list button {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        #amenities-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #amenities-list li {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        /* Responsive Media Query */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Rooms</a></li>
+            <li><a href="#">Facilities</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content Grid Layout -->
+    <main class="content-grid">
+        
+        <!-- Booking Form Section -->
+        <section>
+            <h2>Book Your Stay</h2>
+            <form id="booking-form">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+
+                <label for="checkin">Check-In Date:</label>
+                <input type="date" id="checkin" required>
+
+                <label for="checkout">Check-Out Date:</label>
+                <input type="date" id="checkout" required>
+
+                <label for="guests">Number of Guests:</label>
+                <input type="number" id="guests" min="1" required>
+
+                <button type="submit">Book Now</button>
+            </form>
+        </section>
+
+        <!-- Dynamic Amenities List Section -->
+        <section>
+            <h2>Amenities</h2>
+            <div id="amenities-list">
+                <input type="text" id="new-amenity" placeholder="Add an amenity...">
+                <button onclick="addAmenity()">Add Amenity</button>
+                <ul id="amenities"></ul>
+            </div>
+        </section>
+</main>
+
+    <!-- JavaScript for Form Validation and Amenities List -->
+    <script>
+        // Form Validation
+        document.getElementById("booking-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const checkin = new Date(document.getElementById("checkin").value);
+            const checkout = new Date(document.getElementById("checkout").value);
+
+            if (!email.includes("@") || !email.includes(".")) {
+                alert("Please enter a valid email.");
+                return;
+            }
+
+            if (checkout <= checkin) {
+                alert("Check-out date must be after the check-in date.");
+                return;
+            }
+
+            alert("Booking successful!");
+            this.reset(); // Optional: Reset the form after submission
+        });
+
+        // Add Amenities to List
+        function addAmenity() {
+            const amenityText = document.getElementById("new-amenity").value.trim();
+            if (amenityText === "") {
+                alert("Please enter an amenity.");
+                return;
+            }
+
+            const listItem = document.createElement("li");
+            listItem.textContent = amenityText;
+
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.onclick = function() {
+                listItem.remove();
+            };
+
+            listItem.appendChild(removeButton);
+            document.getElementById("amenities").appendChild(listItem);
+            document.getElementById("new-amenity").value = "";
+        }
+    </script>
+
+</body>
+</html>
